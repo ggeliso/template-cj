@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +20,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Entity
-public class Employee implements Serializable {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Employee implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -6661243404758411840L;
@@ -28,8 +31,6 @@ public class Employee implements Serializable {
     private Integer id;
 
     private String name;
-
-    private Float amount;
 
     private boolean active;
 

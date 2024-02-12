@@ -1,7 +1,7 @@
 package com.ggelis.templatecj.service;
 
-import com.ggelis.templatecj.entity.Employee;
-import com.ggelis.templatecj.repository.EmployeeRepository;
+import com.ggelis.templatecj.entity.EmployeePerMonth;
+import com.ggelis.templatecj.repository.EmployeePerMonthRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,15 +12,15 @@ import java.util.List;
 @Service
 public abstract class ProviderMemberTemplate {
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeePerMonthRepository employeePerMonthRepository;
 
-    public ProviderMemberTemplate(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public ProviderMemberTemplate(EmployeePerMonthRepository employeePerMonthRepository) {
+        this.employeePerMonthRepository = employeePerMonthRepository;
     }
 
-    public List<Employee> getAllEmployeesActive() {
+    public List<EmployeePerMonth> getAllEmployeesActivePerMonth() {
 
-        return this.employeeRepository.findAllByActiveTrue();
+        return this.employeePerMonthRepository.findAllByActiveTrue();
     }
 
     public abstract float totalAmount();

@@ -1,7 +1,8 @@
 package com.ggelis.templatecj.service;
 
 import com.ggelis.templatecj.entity.Employee;
-import com.ggelis.templatecj.repository.EmployeeRepository;
+import com.ggelis.templatecj.entity.EmployeePerMonth;
+import com.ggelis.templatecj.repository.EmployeePerMonthRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.when;
 class TemplateProcessorTest {
 
     @Mock
-    EmployeeRepository employeeRepository;
+    EmployeePerMonthRepository employeeRepository;
 
     @InjectMocks
     TemplateProcessor templateProcessor;
@@ -31,10 +32,10 @@ class TemplateProcessorTest {
         // Given: total amount expected about all active employees
         Float amountExpected = this.loadActiveEmployees(Data.EMPLOYEES)
                 .stream()
-                .map(Employee::getAmount)
+                .map(EmployeePerMonth::getAmount)
                 .reduce(0F, Float::sum);
 
-        List<Employee> employeesActive = this.loadActiveEmployees(Data.EMPLOYEES);
+        List<EmployeePerMonth> employeesActive = this.loadActiveEmployees(Data.EMPLOYEES);
 
         when(employeeRepository.findAllByActiveTrue()).thenReturn(employeesActive);
 
@@ -50,7 +51,7 @@ class TemplateProcessorTest {
     void testThrowingExceptionWhenEmployeeIDIsEqualZero() {
 
         // given: a list of employees with ID zero
-        List<Employee> employeesWithoutId = this.loadActiveEmployees(Data.EMPLOYEES_WITHOUT_ID);
+        List<EmployeePerMonth> employeesWithoutId = this.loadActiveEmployees(Data.EMPLOYEES_WITHOUT_ID);
 
         when(employeeRepository.findAllByActiveTrue()).thenReturn(employeesWithoutId);
 
@@ -70,7 +71,7 @@ class TemplateProcessorTest {
     void testThrowingExceptionWhenAmountIsNegative() {
 
         // given:
-        List<Employee> activeEmployeesWithNegativeAmount = this.loadActiveEmployees(Data.EMPLOYEE_WITH_NEGATIVE_AMOUNT);
+        List<EmployeePerMonth> activeEmployeesWithNegativeAmount = this.loadActiveEmployees(Data.EMPLOYEE_WITH_NEGATIVE_AMOUNT);
 
         when(employeeRepository.findAllByActiveTrue()).thenReturn(activeEmployeesWithNegativeAmount);
 
@@ -88,7 +89,7 @@ class TemplateProcessorTest {
     void testThrowingExceptionWhenNamesEmployeeIsNull() {
 
         // given: series of employee whose names probably will be null
-        List<Employee> namesEmployeeIsNull = this.loadActiveEmployees(Data.EMPLOYEES_NAME_IS_NULL);
+        List<EmployeePerMonth> namesEmployeeIsNull = this.loadActiveEmployees(Data.EMPLOYEES_NAME_IS_NULL);
         when(employeeRepository.findAllByActiveTrue()).thenReturn(namesEmployeeIsNull);
 
         // when: Processing the template processor
@@ -105,7 +106,7 @@ class TemplateProcessorTest {
     void testThrowingExceptionWhenNamesEmployeeIsEmpty() {
 
         // given: list of active employees whose names probably are empty
-        List<Employee> namesEmployeeIsNull = this.loadActiveEmployees(Data.EMPLOYEES_NAME_IS_EMPTY);
+        List<EmployeePerMonth> namesEmployeeIsNull = this.loadActiveEmployees(Data.EMPLOYEES_NAME_IS_EMPTY);
         when(employeeRepository.findAllByActiveTrue()).thenReturn(namesEmployeeIsNull);
 
         // when: Processing the template processor
@@ -118,7 +119,7 @@ class TemplateProcessorTest {
 
     }
 
-    private List<Employee> loadActiveEmployees(List<Employee> employees) {
+    private List<EmployeePerMonth> loadActiveEmployees(List<EmployeePerMonth> employees) {
 
         return employees
                 .stream()
